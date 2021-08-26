@@ -17,4 +17,6 @@ class FPSPROJECT_API AFPSHUD : public AHUD
 protected:
 	UPROPERTY(EditDefaultsOnly)
 		UTexture2D* CrosshairTexture;
+public:
+	virtual void DrawHUD() override;;
 };

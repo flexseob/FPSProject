@@ -17,6 +17,7 @@ AFPSProjectile::AFPSProjectile()
 	//set collision channel setting
 	CollisionComponent->BodyInstance.SetCollisionProfileName(TEXT("Projectile"));
 	CollisionComponent->OnComponentHit.AddDynamic(this, &AFPSProjectile::OnHit);
+
 	
 	CollisionComponent->InitSphereRadius(15.0f);
 	RootComponent = CollisionComponent;
