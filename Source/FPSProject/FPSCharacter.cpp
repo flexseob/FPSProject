@@ -93,6 +93,35 @@ void AFPSCharacter::StopJump()
 
 void AFPSCharacter::Fire()
 {
+	if(ProjectileClass)
+	{
+		FVector CameraLocation;
+		FRotator CameraRotation;
+		GetActorEyesViewPoint(CameraLocation, CameraRotation);
+
+		// Muzzleoffset tranform cameraspace to worldspace
+		FVector MuzzleLocation = CameraLocation + FTransform(CameraRotation).TransformVector(MuzzleOffset);
+		FRotator MuzzleRotation = CameraRotation;
+
+		// aim position  a little up
+		MuzzleRotation.Pitch += 10.0f;
+		UWorld* World = GetWorld();
+		if(World != nullptr)
+		{
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.Owner = this;
+			SpawnParams.Instigator = GetInstigator();
+
+			//Spawn the Projectile to muzzle of a gun
+			AFPSProjectile* Projectile = World->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, SpawnParams);
+			if(Projectile != nullptr)
+			{
+				FVector LaunchDir = MuzzleRotation.Vector();
+				Projectile->FireInDirection(LaunchDir);
+			}
+		}
+		
+	}
 	
 }
 
